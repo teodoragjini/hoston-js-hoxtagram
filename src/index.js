@@ -6,6 +6,17 @@ fetch("http://localhost:3002/images")
     }
   });
 
+
+  function updateImage(image) {
+    return fetch (`http://localhost:3002/images/${image.id}`,{
+      method: 'PATCH',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify(image)
+    }).then(resp => resp.json())
+  }
+
 function createImageCard(image) {
   let section = document.querySelector(".image-container");
 
@@ -30,6 +41,13 @@ function createImageCard(image) {
   let button = document.createElement("button");
   button.className = "like-button";
   button.textContent = "♥";
+  button.addEventListener('click', function() {
+    image.likes++
+
+    updateImage(image)
+createImageCard(image)
+
+  })
 
   let ul = document.createElement("ul");
 
